@@ -1,11 +1,17 @@
 package multiplicacionmatricesdispersas;
 
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class MatrizDispersa {
 
-    Nodo cabeza;
+    private Nodo cabeza;
+
+    public Nodo obtenerCabeza() {
+        return cabeza;
+    }
 
     public MatrizDispersa(int filas, int columnas) {
         cabeza = new Nodo(filas, columnas);
@@ -79,5 +85,43 @@ public class MatrizDispersa {
 
         tbl.setModel(new DefaultTableModel(datos, encabezados));
 
+        tbl.getModel().addTableModelListener(new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                int c = e.getColumn();
+                int f = e.getFirstRow();
+
+                asignar(f + 1, c + 1, Double.parseDouble((String) tbl.getValueAt(f, c)));
+            }
+        });
+
     }
+
+    public boolean esMultiplcable(MatrizDispersa m) {
+        return this.cabeza.valor2 == m.obtenerCabeza().valor1;
+    }
+
+    public MatrizDispersa multiplicar(MatrizDispersa m) {
+        if (!esMultiplcable(m)) {
+            return null;
+        }
+
+        int c = (int) m.obtenerCabeza().valor2;
+        int f = cabeza.valor1;
+        MatrizDispersa mR = new MatrizDispersa(f, c);
+
+        for (int i = 1; i <= f; i++) {
+            for (int j = 1; j <= c; j++) {
+                double s = 0;
+                for (int k = 1; k <= (int) cabeza.valor2; k++) {
+                    s += obtener(i, k) * m.obtener(k, j);
+                }
+                mR.asignar(i, j, s);
+            }
+        }
+
+        return mR;
+    }
+
 }

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package multiplicacionmatricesdispersas;
 
+import javax.swing.JOptionPane;
 
 public class FrmMultiplicacion extends javax.swing.JFrame {
 
     MatrizDispersa mA, mB, mC;
-    
+
     /**
      * Creates new form FrmMultiplicacion
      */
@@ -29,6 +29,7 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         btnDimensionar = new javax.swing.JButton();
+        btnOperar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtFilas = new javax.swing.JTextField();
@@ -41,6 +42,9 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblB = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblC = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +61,17 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnDimensionar);
+
+        btnOperar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Operar.png"))); // NOI18N
+        btnOperar.setFocusable(false);
+        btnOperar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOperar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOperarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnOperar);
 
         jLabel1.setText("Filas:");
 
@@ -108,11 +123,11 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
         );
 
         tpMatrices.addTab("Matriz A", jPanel2);
@@ -134,7 +149,7 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,6 +159,34 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
         );
 
         tpMatrices.addTab("Matriz B", jPanel3);
+
+        tblC.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblC);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+        );
+
+        tpMatrices.addTab("Matriz Resultado", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,18 +212,35 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDimensionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDimensionarActionPerformed
-        
-        int filas=Integer.parseInt(txtFilas.getText());
-        int columnas=Integer.parseInt(txtColumnas.getText());
-        
-        mA=new MatrizDispersa(filas, columnas);
-        
-        mA.asignar(2, 3, 2.8);
-        mA.asignar(4, 5, 0.6);
-        
-        mA.mostrar(tblA);
-        
+
+        int filas = Integer.parseInt(txtFilas.getText());
+        int columnas = Integer.parseInt(txtColumnas.getText());
+
+        switch (tpMatrices.getSelectedIndex()) {
+            case 0:
+                mA = new MatrizDispersa(filas, columnas);
+                mA.mostrar(tblA);
+                break;
+            case 1:
+                mB = new MatrizDispersa(filas, columnas);
+                mB.mostrar(tblB);
+                break;
+        }
+
     }//GEN-LAST:event_btnDimensionarActionPerformed
+
+    private void btnOperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOperarActionPerformed
+        if (mA != null && mB != null) {
+            mC = mA.multiplicar(mB);
+            if (mC != null) {
+                mC.mostrar(tblC);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pueden multiplicar");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Falta alguna de las matrices");
+        }
+    }//GEN-LAST:event_btnOperarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,16 +279,20 @@ public class FrmMultiplicacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDimensionar;
+    private javax.swing.JButton btnOperar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tblA;
     private javax.swing.JTable tblB;
+    private javax.swing.JTable tblC;
     private javax.swing.JTabbedPane tpMatrices;
     private javax.swing.JTextField txtColumnas;
     private javax.swing.JTextField txtFilas;
